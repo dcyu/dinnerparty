@@ -1,0 +1,21 @@
+.row
+  .col-md-6.offset
+    .panel.panel-info
+      .panel-body
+        = form_for @dinner do |f|
+          - if @dinner.errors.any?
+            #error_explanation
+              %h2= "#{pluralize(@dinner.errors.count, "error")} prohibited this dinner from being saved:"
+              %ul
+                - @dinner.errors.full_messages.each do |msg|
+                  %li= msg
+
+          .form-group
+            = f.label :time
+            = f.datetime_select :time
+
+          .form-group
+            = f.label :location
+            = f.text_field :location
+
+          = f.submit 'Save', class: "btn btn-default"

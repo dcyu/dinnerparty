@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %title Dinner Party
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag "application"
+    %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"}
+    %script{src: "https://www.google.com/jsapi"}
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-default{:role => "navigation"}
+      .container-fluid
+        / Brand and toggle get grouped for better mobile display
+        .navbar-header
+          %button.navbar-toggle.collapsed{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => "#{root_path}"} Dinner Party
+        
+        .collapse.navbar-collapse
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              =link_to 'ABOUT', about_path
+
+    - flash.each do |key, value|
+      %div{class: flash_class(key)}
+        = value
+
+    .container
+      = yield

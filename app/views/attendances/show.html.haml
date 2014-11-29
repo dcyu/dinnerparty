@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Person:
+  = @attendance.person.fullname
+%p
+  %b Dinner:
+  = @attendance.dinner.formatted_time
+
+= link_to 'Edit', edit_dinner_attendance_path(@dinner, @attendance)
+\|
+= link_to 'Back', dinner_attendances_path
+\|
+= link_to 'Destroy', dinner_attendance_path(@dinner, @attendance), :method => :delete, :data => { :confirm => 'Are you sure?' }
+

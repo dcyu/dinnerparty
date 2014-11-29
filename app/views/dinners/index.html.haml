@@ -1,0 +1,19 @@
+%h1 Dinners
+
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Time
+        %th Location
+        %th{:colspan => "3"}
+    %tbody
+      - @dinners.each do |dinner|
+        %tr
+          %td= link_to dinner.formatted_time, dinner
+          %td= dinner.location
+          %td= link_to 'Invite People', new_dinner_attendance_path(dinner)
+          %td= link_to 'Edit', edit_dinner_path(dinner)
+          %td= link_to 'Destroy', dinner, method: :delete, data: { confirm: 'Are you sure?' }
+%br
+  = link_to 'Add New Dinner', new_dinner_path

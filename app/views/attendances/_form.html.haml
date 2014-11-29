@@ -1,0 +1,30 @@
+.row
+  .col-md-6.offset
+    .panel.panel-info
+      .panel-body
+        = form_for [@dinner, @attendance] do |f|
+          - if @attendance.errors.any?
+            #error_explanation
+              %h2= "#{pluralize(@attendance.errors.count, "error")} prohibited this attendance from being saved:"
+              %ul
+                - @attendance.errors.full_messages.each do |msg|
+                  %li= msg
+
+          .form-group
+            = f.label :person_id
+            %br/
+            = f.collection_select :person_id, Person.all, :id, :fullname
+
+          .form-group
+            .radio
+              %label
+                = f.radio_button :confirmed, "true"
+                Confirmed
+            .radio
+              %label
+                = f.radio_button :confirmed, "false"
+                Unconfirmed
+
+            = f.hidden_field :dinner_id, value: @dinner.id
+
+          = f.submit 'Save', class: "btn btn-default"

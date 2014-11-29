@@ -1,0 +1,58 @@
+.row
+  .col-md-8
+
+    %h2
+      = @dinner.time.to_formatted_s(:long)
+    %h3
+      = @dinner.location
+
+    = link_to 'Edit', edit_dinner_path(@dinner)
+    \|
+    = link_to 'Back', dinners_path
+  
+
+%br/
+
+.row
+  .col-md-6
+    #map-canvas{:style => "width: 450px; height: 300px"}
+
+  .col-md-4
+    %h3 Attendees
+    %ul
+      -@attendances.each do |attendance|
+        %li
+          =attendance.person.fullname
+          \|
+          -if attendance.confirmed
+            Confirmed
+          -else
+            Unconfirmed
+          \|
+          = link_to 'Edit', edit_dinner_attendance_path(@dinner, attendance)
+          \|
+          = link_to 'Remove', dinner_attendance_path(@dinner, attendance), :method => :delete, :data => { :confirm => 'Are you sure?' }
+    = link_to 'Add New Attendee', new_dinner_attendance_path(@dinner)
+
+
+
+
+
+-if @geo
+  %script{:src => "https://maps.googleapis.com/maps/api/js?key=#{ENV['MAP_KEY']}&language=#{params[:locale]}", :type => "text/javascript"}
+  :javascript
+    function initialize() {
+      var geo
+      var mapOptions = {
+        center: { lat: #{@geo.first}, lng: #{@geo.last}},
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      };
+      var map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+      var marker = new google.maps.Marker({
+          position: {lat: #{@geo.first}, lng: #{@geo.last}},
+          map: map,
+      });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
